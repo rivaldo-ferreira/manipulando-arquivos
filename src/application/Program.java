@@ -1,6 +1,8 @@
 package application;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -8,21 +10,34 @@ public class Program {
     public static void main(String[] args){
         System.out.println("***** leitura e escrita de arquivos *****".toUpperCase());
 
-        File file = new File("D:\\A_CURSO_JAVA UDEMY\\arquivos\\arquivos_txt\\arquivo_leitura.txt");
-        Scanner dg = null;
+        String path = "D:\\A_CURSO_JAVA UDEMY\\arquivos\\arquivos_txt\\arquivo_leitura.txt";
+        BufferedReader br = null;
+        FileReader fr = null;
         int cont = 1;
 
-        try {
-            dg = new Scanner(file);
-            while(dg.hasNextLine()){
-                System.out.println(cont + " - " + dg.nextLine().toUpperCase());
+        try{
+            fr = new FileReader(path);
+            br = new BufferedReader(fr);
+
+            String line = br.readLine();
+
+            while(line != null){
+                System.out.println(cont + " - " + line);
+                line = br.readLine();
                 cont++;
             }
-        } catch (IOException e){
+        }catch (IOException e){
             System.out.println("Error: " + e.getMessage());
         } finally {
-            if(dg != null){
-                dg.close();
+            try{
+                if(br != null){
+                    br.close();
+                }
+                if(fr != null){
+                    fr.close();
+                }
+            }catch (IOException e){
+                e.printStackTrace();
             }
         }
     }
